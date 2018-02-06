@@ -16,15 +16,20 @@ public class ActionNotificationBuilder {
 
     private static final String TAG = ActionNotificationBuilder.class.getName();
 
-    private  NotificationCompat.Builder mBuilder;
-    private  NotificationManager notificationManager;
-    private  Context context;
+    private NotificationCompat.Builder mBuilder;
+    private NotificationManager notificationManager;
+    private Context context;
+    private int mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
+    private int mNotificationBigIconResounce = android.R.drawable.ic_dialog_info;
+    private String title;
+    private String subTitle;
 
     public ActionNotificationBuilder(Context activity) {
         this.context = activity;
         mBuilder = new NotificationCompat.Builder(activity);
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
     }
+
 
     public void setNotificationType(NotificationType type, Intent intent) {
         switch (type) {
@@ -39,7 +44,7 @@ public class ActionNotificationBuilder {
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 
-               mBuilder
+                mBuilder
                         .setSmallIcon(android.R.drawable.ic_dialog_info)
                         .setContentTitle("Something important happened")
                         .setContentText("See the details")
@@ -73,7 +78,7 @@ public class ActionNotificationBuilder {
 
     }
 
-    public void showNotification(Intent intent){
+    public void showNotification(Intent intent) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 0,
@@ -82,15 +87,15 @@ public class ActionNotificationBuilder {
         );
 
         mBuilder
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("Notification title")
-                .setContentText("Content text");
+                .setSmallIcon(getNotificationSmallIconResource())
+                .setContentTitle(getTitle())
+                .setContentText(getSubTitle());
 
         // Obtain NotificationManager system service in order to show the notification
         notificationManager.notify(852, mBuilder.build());
     }
 
-    public void showExpandableNotification(Intent intent){
+    public void showExpandableNotification(Intent intent) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 0,
@@ -99,9 +104,9 @@ public class ActionNotificationBuilder {
         );
 
         mBuilder
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("Notification title")
-                .setContentText("Content text")
+                .setSmallIcon(getNotificationSmallIconResource())
+                .setContentTitle(getTitle())
+                .setContentText(getSubTitle())
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Data"))
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
@@ -110,7 +115,7 @@ public class ActionNotificationBuilder {
         notificationManager.notify(852, mBuilder.build());
     }
 
-    public void showExpandableNotificationWithActions(Intent intent, ArrayList<Intent> actions){
+    public void showExpandableNotificationWithActions(Intent intent, ArrayList<Intent> actions) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 0,
@@ -119,13 +124,13 @@ public class ActionNotificationBuilder {
         );
 
         mBuilder
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
-                .setContentTitle("Something important happened")
-                .setContentText("See the details")
+                .setSmallIcon(getNotificationSmallIconResource())
+                .setContentTitle(getTitle())
+                .setContentText(getSubTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
-        for(Intent action: actions){
+        for (Intent action : actions) {
             PendingIntent buttonAction = PendingIntent.getActivity(
                     context,
                     0,
@@ -133,14 +138,46 @@ public class ActionNotificationBuilder {
                     PendingIntent.FLAG_UPDATE_CURRENT
             );
             int iconResource = action.getIntExtra("IconResource", android.R.drawable.ic_menu_compass);
-            mBuilder.addAction(iconResource,"ACCEPT DUTY",buttonAction);
+            mBuilder.addAction(iconResource, "ACCEPT DUTY", buttonAction);
         }
 
         // Obtain NotificationManager system service in order to show the notification
         notificationManager.notify(852, mBuilder.build());
     }
 
-    public void cancleNotification(){
+    public void cancleNotification() {
 
+    }
+
+    public int getNotificationSmallIconResource() {
+        return mNotificationSmallIconResource;
+    }
+
+    public void setNotificationSmallIconResource(int mNotificationSmallIconResource) {
+        this.mNotificationSmallIconResource = mNotificationSmallIconResource;
+    }
+
+    public int getNotificationBigIconResounce() {
+        return mNotificationBigIconResounce;
+    }
+
+    public void setNotificationBigIconResounce(int mNotificationBigIconResounce) {
+        this.mNotificationBigIconResounce = mNotificationBigIconResounce;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getSubTitle() {
+        return subTitle;
+    }
+
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 }
