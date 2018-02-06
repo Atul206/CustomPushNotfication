@@ -11,23 +11,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.value).setOnClickListener(this);
+        /*findViewById(R.id.value).setOnClickListener(this);
         findViewById(R.id.value1).setOnClickListener(this);
-        findViewById(R.id.value2).setOnClickListener(this);
+        findViewById(R.id.value2).setOnClickListener(this);*/
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-//            case R.id.value:
-//                showNotification(NotificationType.NO_ACTION_NOTIFICATION);
-//                break;
-//            case R.id.value1:
-//                showNotification(NotificationType.EXPANDABLE_NOTIFICATION);
-//                break;
-//            case R.id.value2:
-//                showNotification(NotificationType.DOUBLE_ACTION_NOTIFICATION);
-//                break;
+            /*case R.id.value:
+                showNotification(NotificationType.NO_ACTION_NOTIFICATION);
+                break;
+            case R.id.value1:
+                showNotification(NotificationType.EXPANDABLE_NOTIFICATION);
+                break;
+            case R.id.value2:
+                showNotification(NotificationType.DOUBLE_ACTION_NOTIFICATION);
+                break;*/
         }
     }
 

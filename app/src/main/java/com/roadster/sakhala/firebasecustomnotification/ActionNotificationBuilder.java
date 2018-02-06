@@ -1,12 +1,10 @@
 package com.roadster.sakhala.firebasecustomnotification;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -20,10 +18,10 @@ public class ActionNotificationBuilder {
 
     private  NotificationCompat.Builder mBuilder;
     private  NotificationManager notificationManager;
-    private  Activity activity;
+    private  Context context;
 
-    public ActionNotificationBuilder(Activity activity) {
-        this.activity = activity;
+    public ActionNotificationBuilder(Context activity) {
+        this.context = activity;
         mBuilder = new NotificationCompat.Builder(activity);
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
     }
@@ -35,7 +33,7 @@ public class ActionNotificationBuilder {
 
             case DOUBLE_ACTION_NOTIFICATION:
                 PendingIntent doubleActionIntent = PendingIntent.getActivity(
-                        activity,
+                        context,
                         0,
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT
@@ -54,7 +52,7 @@ public class ActionNotificationBuilder {
                 break;
             case SINGLE_ACTION_NOTIFICATION:
                 PendingIntent singleIntent = PendingIntent.getActivity(
-                        activity,
+                        context,
                         0,
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT
@@ -77,7 +75,7 @@ public class ActionNotificationBuilder {
 
     public void showNotification(Intent intent){
         PendingIntent expandableIntent = PendingIntent.getActivity(
-                activity,
+                context,
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
@@ -94,7 +92,7 @@ public class ActionNotificationBuilder {
 
     public void showExpandableNotification(Intent intent){
         PendingIntent expandableIntent = PendingIntent.getActivity(
-                activity,
+                context,
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
@@ -114,7 +112,7 @@ public class ActionNotificationBuilder {
 
     public void showExpandableNotificationWithActions(Intent intent, ArrayList<Intent> actions){
         PendingIntent expandableIntent = PendingIntent.getActivity(
-                activity,
+                context,
                 0,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT
@@ -129,7 +127,7 @@ public class ActionNotificationBuilder {
 
         for(Intent action: actions){
             PendingIntent buttonAction = PendingIntent.getActivity(
-                    activity,
+                    context,
                     0,
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT
