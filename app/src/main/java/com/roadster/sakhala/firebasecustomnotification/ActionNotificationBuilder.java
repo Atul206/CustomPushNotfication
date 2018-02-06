@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.ArrayList;
@@ -91,6 +92,13 @@ public class ActionNotificationBuilder {
                 .setContentTitle(getTitle())
                 .setContentText(getSubTitle());
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+            mBuilder.setColor(context.getResources().getColor(android.R.color.white));
+        } else {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+        }
+
         // Obtain NotificationManager system service in order to show the notification
         notificationManager.notify(852, mBuilder.build());
     }
@@ -111,6 +119,13 @@ public class ActionNotificationBuilder {
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+            mBuilder.setColor(context.getResources().getColor(android.R.color.white));
+        } else {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+        }
+
         // Obtain NotificationManager system service in order to show the notification
         notificationManager.notify(852, mBuilder.build());
     }
@@ -129,6 +144,13 @@ public class ActionNotificationBuilder {
                 .setContentText(getSubTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+            mBuilder.setColor(context.getResources().getColor(android.R.color.white));
+        } else {
+            mBuilder.setSmallIcon(getNotificationSmallIconResource());
+        }
 
         for (Intent action : actions) {
             PendingIntent buttonAction = PendingIntent.getActivity(
