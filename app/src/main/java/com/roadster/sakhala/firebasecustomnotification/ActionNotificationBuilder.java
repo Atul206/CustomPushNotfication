@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -27,7 +28,7 @@ public class ActionNotificationBuilder {
     private NotificationManager notificationManager;
     private Context context;
     private int mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
-    private Bitmap mNotificationBigIconResounce;
+    private Bitmap mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground);;
     private String title;
     private String subTitle;
     private String backGroundImageUrl;
@@ -176,8 +177,6 @@ public class ActionNotificationBuilder {
         mBuilder
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
-                .setContentTitle(getTitle())
-                .setContentText(getSubTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -220,8 +219,6 @@ public class ActionNotificationBuilder {
         mBuilder
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
-                .setContentTitle(getTitle())
-                .setContentText(getSubTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
