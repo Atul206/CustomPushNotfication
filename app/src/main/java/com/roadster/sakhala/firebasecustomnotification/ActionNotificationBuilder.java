@@ -179,6 +179,7 @@ public class ActionNotificationBuilder {
         mBuilder
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
+                .setContentTitle(getTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -190,18 +191,12 @@ public class ActionNotificationBuilder {
                     .into(500, 500)
                     .get();
             NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle().bigPicture(myBitmap);
-            String title = getTitle();
             String message = getSubTitle();
-            if (title.length() > 20) {
-                title = title.substring(0, 20);
-                title = title + "...";
-            }
 
             if (message.length() > 100) {
                 message = message.substring(0, 100);
                 message = message + "...";
             }
-            s.setBigContentTitle(title);
             s.setSummaryText(message);
             mBuilder.setStyle(s);
         } catch (InterruptedException | ExecutionException e) {
@@ -221,6 +216,7 @@ public class ActionNotificationBuilder {
         mBuilder
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
+                .setContentTitle(getTitle())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -232,18 +228,12 @@ public class ActionNotificationBuilder {
                     .into(500, 500)
                     .get();
             NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle().bigPicture(myBitmap);
-            String title = getTitle();
             String message = getSubTitle();
-            if (title.length() > 20) {
-                title = title.substring(0, 20);
-                title = title + "...";
-            }
 
             if (message.length() > 100) {
                 message = message.substring(0, 100);
                 message = message + "...";
             }
-            s.setBigContentTitle(title);
             s.setSummaryText(message);
             mBuilder.setStyle(s);
         } catch (InterruptedException | ExecutionException e) {
