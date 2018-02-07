@@ -166,7 +166,7 @@ public class ActionNotificationBuilder {
     }
 
 
-    private void showExpandableNotification(Intent intent) {
+    public void showExpandableNotification(Intent intent) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 1,
@@ -210,7 +210,7 @@ public class ActionNotificationBuilder {
         notificationManager.notify(852, mBuilder.build());
     }
 
-    private void showExpandableNotificationWithAction(Intent intent, ArrayList<Intent> actions) {
+    public void showExpandableNotificationWithAction(Intent intent, ArrayList<Intent> actions) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 1,
