@@ -27,8 +27,8 @@ public class ActionNotificationBuilder {
     private NotificationCompat.Builder mBuilder;
     private NotificationManager notificationManager;
     private Context context;
-    private int mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
-    private Bitmap mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground);;
+    private int mNotificationSmallIconResource;
+    private Bitmap mNotificationBigIconResounce;
     private String title;
     private String subTitle;
     private String backGroundImageUrl;
@@ -37,6 +37,8 @@ public class ActionNotificationBuilder {
         this.context = activity;
         mBuilder = new NotificationCompat.Builder(activity);
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+        mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground);
+        mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
     }
 
     public void showNotification(Intent intent) {
