@@ -57,9 +57,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("title", "Hello");
         intent.putExtra("text", "What happen!!");
 
-        new ActionNotificationBuilder(this)
-                .setNotificationType(notificationType,intent);
-
-
     }
 }
