@@ -1,8 +1,8 @@
 package com.roadster.sakhala.firebasecustomnotification;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -11,14 +11,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.value).setOnClickListener(this);
+     /*   findViewById(R.id.value).setOnClickListener(this);
         findViewById(R.id.value1).setOnClickListener(this);
-        findViewById(R.id.value2).setOnClickListener(this);
+        findViewById(R.id.value2).setOnClickListener(this);*/
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+       /* switch (view.getId()){
             case R.id.value:
                 showNotification(NotificationType.NO_ACTION_NOTIFICATION);
                 break;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.value2:
                 showNotification(NotificationType.DOUBLE_ACTION_NOTIFICATION);
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
     }
 
-    private void showNotification(NotificationType notificationType){
+    private void showNotification(NotificationType notificationType) {
         Intent intent = new Intent(this, MainActivity.class);
         // Send data to NotificationView Class
         intent.putExtra("title", "Hello");
