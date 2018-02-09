@@ -6,19 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by atulsakhala on 31/01/18.
  */
 
-public class ActionNotificationBuilder {
+public class ActionNotificationBuilder implements onDownload {
 
     public static final String BUTTON_ACTION = "button_action";
     public static final String BUTTON_ICON = "button_icon";
@@ -31,13 +33,14 @@ public class ActionNotificationBuilder {
     private Bitmap mNotificationBigIconResounce;
     private String title;
     private String subTitle;
-    private String backGroundImageUrl;
+    private Bitmap bitmap;
+    private String url;
 
     public ActionNotificationBuilder(Context activity) {
         this.context = activity;
         mBuilder = new NotificationCompat.Builder(activity);
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
-        mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground);
+        mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_background);
         mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
     }
 
@@ -169,7 +172,108 @@ public class ActionNotificationBuilder {
     }
 
 
-    public void showExpandableNotification(Intent intent) {
+    public void showBigPictureNotification(Intent intent) {
+
+        NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle();
+        Glide
+                .with(context)
+                .load(url)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>(500, 500) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                        s.bigPicture(resource);
+                        PendingIntent expandableIntent = PendingIntent.getActivity(
+                                context,
+                                1,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        mBuilder
+                                .setSmallIcon(getNotificationSmallIconResource())
+                                .setLargeIcon(getNotificationBigIconResounce())
+                                .setContentTitle(getTitle())
+                                .setContentIntent(expandableIntent)
+                                .setAutoCancel(true);
+
+                        String message = getSubTitle();
+
+                        if (message.length() > 100) {
+                            message = message.substring(0, 100);
+                            message = message + "...";
+                        }
+                        s.setSummaryText(message);
+                        mBuilder.setStyle(s);
+                        notificationManager.notify(852, mBuilder.build());
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                    }
+
+
+                });
+
+    }
+
+    public void showBigPictureNotificationWithAction(Intent intent, ArrayList<Intent> actions) {
+
+        NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle();
+        Glide
+                .with(context)
+                .load(url)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>(500, 500) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                        s.bigPicture(resource);
+                        PendingIntent expandableIntent = PendingIntent.getActivity(
+                                context,
+                                1,
+                                intent,
+                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        mBuilder
+                                .setSmallIcon(getNotificationSmallIconResource())
+                                .setLargeIcon(getNotificationBigIconResounce())
+                                .setContentTitle(getTitle())
+                                .setContentIntent(expandableIntent)
+                                .setAutoCancel(true);
+
+                        String message = getSubTitle();
+
+                        if (message.length() > 100) {
+                            message = message.substring(0, 100);
+                            message = message + "...";
+                        }
+                        s.setSummaryText(message);
+                        mBuilder.setStyle(s);
+
+                        for (Intent action : actions) {
+                            PendingIntent buttonAction = PendingIntent.getActivity(
+                                    context,
+                                    0,
+                                    action,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            );
+                            int iconResource = action.getIntExtra(BUTTON_ICON, android.R.drawable.ic_dialog_info);
+                            mBuilder.addAction(iconResource, action.getStringExtra(BUTTON_ACTION), buttonAction);
+                        }
+
+                        notificationManager.notify(852, mBuilder.build());
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                    }
+
+
+                });
+    }
+
+    public void showBigTextExpandableNotification(Intent intent) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 1,
@@ -183,30 +287,19 @@ public class ActionNotificationBuilder {
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
-        try {
-            Bitmap myBitmap = Glide.with(context)
-                    .load(getBackGroundImageUrl())
-                    .asBitmap()
-                    .fitCenter()
-                    .into(500, 500)
-                    .get();
-            NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle().bigPicture(myBitmap);
-            String message = getSubTitle();
+        NotificationCompat.BigTextStyle s = new NotificationCompat.BigTextStyle();
+        String title = getTitle();
+        String message = getSubTitle();
 
-            if (message.length() > 100) {
-                message = message.substring(0, 100);
-                message = message + "...";
-            }
-            s.setSummaryText(message);
-            mBuilder.setStyle(s);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        s.bigText(message);
+        s.setBigContentTitle(title);
+        //s.setSummaryText(message);
+        mBuilder.setStyle(s);
 
         notificationManager.notify(852, mBuilder.build());
     }
 
-    public void showExpandableNotificationWithAction(Intent intent, ArrayList<Intent> actions) {
+    public void showBigTextExpandableNotificationWithAction(Intent intent, ArrayList<Intent> actions) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
                 1,
@@ -220,25 +313,13 @@ public class ActionNotificationBuilder {
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
-        try {
-            Bitmap myBitmap = Glide.with(context)
-                    .load(getBackGroundImageUrl())
-                    .asBitmap()
-                    .fitCenter()
-                    .into(500, 500)
-                    .get();
-            NotificationCompat.BigPictureStyle s = new NotificationCompat.BigPictureStyle().bigPicture(myBitmap);
-            String message = getSubTitle();
-
-            if (message.length() > 100) {
-                message = message.substring(0, 100);
-                message = message + "...";
-            }
-            s.setSummaryText(message);
-            mBuilder.setStyle(s);
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
+        NotificationCompat.BigTextStyle s = new NotificationCompat.BigTextStyle();
+        String title = getTitle();
+        String message = getSubTitle();
+        s.bigText(message);
+        s.setBigContentTitle(title);
+        //s.setSummaryText(message);
+        mBuilder.setStyle(s);
 
         for (Intent action : actions) {
             PendingIntent buttonAction = PendingIntent.getActivity(
@@ -250,7 +331,6 @@ public class ActionNotificationBuilder {
             int iconResource = action.getIntExtra(BUTTON_ICON, android.R.drawable.ic_dialog_info);
             mBuilder.addAction(iconResource, action.getStringExtra(BUTTON_ACTION), buttonAction);
         }
-
 
         notificationManager.notify(852, mBuilder.build());
     }
@@ -292,11 +372,28 @@ public class ActionNotificationBuilder {
         this.subTitle = subTitle;
     }
 
-    public String getBackGroundImageUrl() {
-        return backGroundImageUrl;
+    public Bitmap getBitmap() {
+        return bitmap;
     }
 
     public void setBackGroundImageUrl(String backGroundImageUrl) {
-        this.backGroundImageUrl = backGroundImageUrl;
+        this.url = backGroundImageUrl;
+        //downloadBitmap(backGroundImageUrl);
+    }
+
+
+    private void downloadBitmap(String url) {
+
+        // new Thread(new NotificationRunnable(context,url, this)).run();
+    }
+
+    @Override
+    public void onFailure(String message) {
+
+    }
+
+    @Override
+    public void onSuccess(Object object) {
+        this.bitmap = (Bitmap) object;
     }
 }
