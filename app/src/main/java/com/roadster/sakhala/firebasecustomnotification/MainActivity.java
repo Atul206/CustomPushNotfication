@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionNotificationBuilder actionNotificationBuilder = new ActionNotificationBuilder(this);
         actionNotificationBuilder.setTitle("Rivigo");
         actionNotificationBuilder.setSubTitle("what happen my friend you are awesome person can you please check what's issue with that, why flight got canceled");
-        actionNotificationBuilder.setBackGroundImageUrl("https://s3-ap-southeast-1.amazonaws.com/pilot-app-resources/production/FEEDBACK/placeholder.png");
         actionNotificationBuilder.showBigImageNotification(intent);
 
     }
