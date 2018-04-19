@@ -1,11 +1,15 @@
 package com.roadster.sakhala.firebasecustomnotification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 
 public class ActionNotificationBuilder {
 
+    private static final String NOTIFICATION_CHANNEL_ID = "roadster_notification_channel";
     public static final String BUTTON_ACTION = "button_action";
     public static final String BUTTON_ICON = "button_icon";
     public static final String UPDATE_STATUS_ID = "update_status_id";
@@ -29,15 +34,33 @@ public class ActionNotificationBuilder {
     private String title;
     private String subTitle;
     private Bitmap bitmap;
+    private NotificationChannel notificationChannel;
+    private Uri uri;
+
 
     public ActionNotificationBuilder(Context activity) {
         this.context = activity;
-        mBuilder = new NotificationCompat.Builder(activity);
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
+        createNotificationChannel();
+        mBuilder = new NotificationCompat.Builder(activity, NOTIFICATION_CHANNEL_ID);
         mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_background);
         mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
     }
 
+    private void  createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
+
+            // Configure the notification channel.
+            notificationChannel.setDescription("Channel description");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.setVibrationPattern(new long[]{500, 500, 500, 500, 500, 500, 500});
+            notificationChannel.enableVibration(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+    }
     public void showNotification(Intent intent) {
         PendingIntent expandableIntent = PendingIntent.getActivity(
                 context,
@@ -49,6 +72,8 @@ public class ActionNotificationBuilder {
         mBuilder
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setContentTitle(getTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentText(getSubTitle());
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -75,6 +100,8 @@ public class ActionNotificationBuilder {
                 .setContentTitle(getTitle())
                 .setContentText(getSubTitle())
                 .setContentIntent(expandableIntent)
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setAutoCancel(true);
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -112,6 +139,8 @@ public class ActionNotificationBuilder {
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
                 .setContentText(getSubTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -140,6 +169,8 @@ public class ActionNotificationBuilder {
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
                 .setContentText(getSubTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -178,6 +209,8 @@ public class ActionNotificationBuilder {
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -207,6 +240,8 @@ public class ActionNotificationBuilder {
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -246,6 +281,8 @@ public class ActionNotificationBuilder {
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -272,6 +309,8 @@ public class ActionNotificationBuilder {
                 .setSmallIcon(getNotificationSmallIconResource())
                 .setLargeIcon(getNotificationBigIconResounce())
                 .setContentTitle(getTitle())
+                .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
+                .setSound(getSound())
                 .setContentIntent(expandableIntent)
                 .setAutoCancel(true);
 
@@ -334,4 +373,11 @@ public class ActionNotificationBuilder {
         this.subTitle = subTitle;
     }
 
+    public Uri getSound() {
+        return uri;
+    }
+
+    public void setSound(Uri uri){
+        this.uri = uri;
+    }
 }
