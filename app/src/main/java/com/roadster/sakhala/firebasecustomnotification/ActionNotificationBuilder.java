@@ -74,6 +74,7 @@ public class ActionNotificationBuilder {
                 .setContentTitle(getTitle())
                 .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500})
                 .setSound(getSound())
+                .setContentIntent(expandableIntent)
                 .setContentText(getSubTitle());
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
