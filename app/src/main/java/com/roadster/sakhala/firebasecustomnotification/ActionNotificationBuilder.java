@@ -21,7 +21,6 @@ import java.util.ArrayList;
 
 public class ActionNotificationBuilder {
 
-    private static final String NOTIFICATION_CHANNEL_ID = "roadster_notification_channel";
     public static final String BUTTON_ACTION = "button_action";
     public static final String BUTTON_ICON = "button_icon";
     public static final String UPDATE_STATUS_ID = "update_status_id";
@@ -38,16 +37,16 @@ public class ActionNotificationBuilder {
     private Uri uri;
 
 
-    public ActionNotificationBuilder(Context activity) {
+    public ActionNotificationBuilder(Context activity, String NOTIFICATION_CHANNEL_ID) {
         this.context = activity;
         notificationManager = (NotificationManager) activity.getSystemService(activity.NOTIFICATION_SERVICE);
-        createNotificationChannel();
+        createNotificationChannel(NOTIFICATION_CHANNEL_ID);
         mBuilder = new NotificationCompat.Builder(activity, NOTIFICATION_CHANNEL_ID);
         mNotificationBigIconResounce = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_background);
         mNotificationSmallIconResource = android.R.drawable.ic_dialog_info;
     }
 
-    private void  createNotificationChannel(){
+    private void  createNotificationChannel(String NOTIFICATION_CHANNEL_ID){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_DEFAULT);
 
