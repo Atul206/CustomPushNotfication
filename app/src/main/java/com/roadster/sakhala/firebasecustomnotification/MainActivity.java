@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("title", "Hello");
         intent.putExtra("text", "What happen!!");
 
-        ActionNotificationBuilder actionNotificationBuilder = new ActionNotificationBuilder(this);
+        ActionNotificationBuilder actionNotificationBuilder = new ActionNotificationBuilder(this, "haha");
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
         AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
